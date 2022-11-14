@@ -4,6 +4,7 @@ import BannerTwo from '../BannerTwo/BannerTwo';
 import InfoCards from '../InfoCards/InfoCards';
 import Services from '../Services/Services';
 import ContactUs from '../Home/ContactUs/ContuctUs';
+import MakeAppoinment from '../MakeAppoinment/MakeAppoinment';
 
 
 
@@ -14,6 +15,7 @@ const Home = () => {
             <InfoCards></InfoCards>
             <Services></Services>
             <BannerTwo></BannerTwo>
+            <MakeAppoinment></MakeAppoinment>
             <ContactUs></ContactUs>
             
         </div>
