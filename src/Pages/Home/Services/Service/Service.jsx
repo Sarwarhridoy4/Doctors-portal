@@ -1,7 +1,7 @@
 import React from "react";
 
 const Service = ({ service }) => {
-  console.log(service);
+ 
   const {name, image, desc} = service
   
   return (
