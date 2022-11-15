@@ -4,7 +4,7 @@ import bg from '../../assets/images/footer.png';
 
 const Footer = () => {
     return (
-        <footer className="footer p-10 text-black" style={{ backgroundImage: `url(${bg})` }}>
+        <footer className="footer p-10 text-black bg-cover" style={{ backgroundImage: `url(${bg})` }}>
   <div>
     <span className="footer-title">Services</span> 
     <Link className="link link-hover">Branding</Link>
