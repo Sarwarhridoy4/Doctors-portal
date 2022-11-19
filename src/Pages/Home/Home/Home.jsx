@@ -5,6 +5,7 @@ import InfoCards from '../InfoCards/InfoCards';
 import Services from '../Services/Services';
 import ContactUs from '../Home/ContactUs/ContuctUs';
 import MakeAppoinment from '../MakeAppoinment/MakeAppoinment';
+import Testimonial from '../../Testimonial/Testimonial';
 
 
 
@@ -16,6 +17,7 @@ const Home = () => {
             <Services></Services>
             <BannerTwo></BannerTwo>
             <MakeAppoinment></MakeAppoinment>
+            <Testimonial></Testimonial>
             <ContactUs></ContactUs>
             
         </div>

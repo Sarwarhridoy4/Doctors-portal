@@ -1,10 +1,15 @@
 import { format } from "date-fns";
 import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthProvider";
+
 
 const BookingModal = ({ treatment, selectedDate }) => {
   const { name, slots } = treatment;
   // console.log(slots);
   const date = format(selectedDate, "PP");
+  const {user} = useContext(AuthContext)
+  
 
   //Event Handeler
   const handelBooking = event => {
@@ -21,11 +26,7 @@ const BookingModal = ({ treatment, selectedDate }) => {
     
     //clear field
     event.target.reset()
-
-
   }
-
-
 
   return (
     <>
@@ -60,7 +61,9 @@ const BookingModal = ({ treatment, selectedDate }) => {
               type='text'
               placeholder='Your Name'
               name='name'
+              defaultValue={user?.displayName}
               required
+              readOnly
               className='input input-bordered w-full'
             />
             <input
@@ -68,6 +71,8 @@ const BookingModal = ({ treatment, selectedDate }) => {
               placeholder='Your Email is requared'
               name='email'
               required
+              defaultValue={user?.email}
+              readOnly
               className='input input-bordered w-full'
             />
             <input

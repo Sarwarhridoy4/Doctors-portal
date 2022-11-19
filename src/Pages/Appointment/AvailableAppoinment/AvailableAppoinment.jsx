@@ -1,17 +1,18 @@
+import {  useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BookingModal from "../../BookingModal/BookingModal";
 import AppoinmentOption from "../AppoinnemtOption/AppoinmentOption";
 
 const AvailableAppoinment = ({ selectedDate }) => {
-  const [appoinmentOptions, setAppoinmentOption] = useState([]);
   const [treatment, setTreatment] = useState(null);
 
-  useEffect(() => {
-    fetch("appoinmentOption.json")
+  const {data:appoinmentOptions=[]} = useQuery({
+    queryKey: ['appoinmentOptions'], queryFn: () => {
+     return fetch("http://localhost:5000/appointment-options")
       .then((res) => res.json())
-      .then((data) => setAppoinmentOption(data));
-  }, []);
+    }
+  })
 
   return (
     <div className='text-center font-bold my-6'>
@@ -24,15 +25,16 @@ const AvailableAppoinment = ({ selectedDate }) => {
           <AppoinmentOption
             key={appoinmentOption._id}
             appoinmentOption={appoinmentOption}
-            setTreatment = {setTreatment}
+            setTreatment={setTreatment}
           ></AppoinmentOption>
         ))}
       </div>
-      {
-        treatment && <BookingModal treatment={treatment}
-        selectedDate ={selectedDate}
+      {treatment && (
+        <BookingModal
+          treatment={treatment}
+          selectedDate={selectedDate}
         ></BookingModal>
-      }
+      )}
     </div>
   );
 };

@@ -1,13 +1,48 @@
-import React from "react";
+import { GoogleAuthProvider } from "firebase/auth";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
-  const { register, handleSubmit, formState:{errors} } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { signIn, googleSignIn } = useContext(AuthContext)
+  const googleProvider = new GoogleAuthProvider();
+  const [loginError, setloginError] = useState('')
+  const locaton = useLocation()
+  const navigate = useNavigate()
+  const from = locaton.state?.from?.pathname || '/';
   const handelLogin = data => {
     console.log(data);
+    setloginError('')
+    signIn(data.email, data.password)
+      .then(result => {
+        const user = result.user
+        toast.success('User login Successfully!')
+        console.log(user); 
+        navigate(from,{replace:true})
+      }).catch(error => {
+        console.error(error)
+        setloginError(error.message)
+      })
     
   }
+  //google signin
+  const handelGoogleSignIn = () => {
+    googleSignIn(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast(`authenticated as ${user?.displayName}`)
+        navigate("/");
+       
+      })
+      .catch((error) => {
+        console.error(error.message);
+        toast(error.message)
+      });
+  };
   return (
     <div className='w-96 p-7 mx-auto'>
       <h4 className='text-xl text-center'>LogIn</h4>
@@ -19,7 +54,7 @@ const Login = () => {
             </label>
             <input
               type='email'
-              {...register("email",{ required: "Email is must needed" })}
+              {...register("email",{ required: "Email is must needed"  })}
               className='input input-bordered w-full'
               aria-invalid={errors.email ? "true" : "false"}
             />
@@ -30,7 +65,7 @@ const Login = () => {
             </label>
             <input
               type='password'
-              {...register("password",{ required: "Provide password" })}
+              {...register("password",{ required: "Provide password",minLength:{value:6, message:'Atleast 6 carecter needed'}})}
               className='input input-bordered w-full'
               aria-invalid={errors.password ? "true" : "false"}
             />
@@ -50,7 +85,12 @@ const Login = () => {
               </Link>
             </p>
             <div className='divider'>OR</div>
-            <button className='btn btn-active btn-outline'>Google</button>
+            <button className='btn btn-active btn-outline' onClick={handelGoogleSignIn}>Google</button>
+          </div>
+          <div>
+            {
+              loginError && toast.error(loginError)
+            }
           </div>
         </form>
       </div>

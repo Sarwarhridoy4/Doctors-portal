@@ -6,6 +6,8 @@ import Login from "../../Pages/Login/Login";
 import SignUp from "../../Pages/SignUp/SignUp";
 import About from "../../Pages/About/About";
 import Review from "../../Pages/Reviews/Reviews";
+import DashBoard from "../../Pages/DashBoard/DashBoard/DashBoard";
+import Private from "../Private/Private";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +31,10 @@ const router = createBrowserRouter([
                 element: <Review></Review>
             },
             {
+                path: '/dashboard',
+                element: <Private><DashBoard></DashBoard></Private>
+            },
+            {
                 path: '/login',
                 element:<Login></Login>
             },
@@ -37,6 +43,10 @@ const router = createBrowserRouter([
                 element:<SignUp></SignUp>
             }
         ]
+    },
+    {
+        path: '/dashboard',
+        element:<DashBoard></DashBoard>
     }
 ])
 

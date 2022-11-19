@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext)
+  const handelLogout = () => {
+
+    logOut()
+      .then(() => {
+        toast.success('User Logged Out')
+       })
+    .catch(error=>console.log(error))
+  }
   const menuItems = (
     <React.Fragment>
       <li>
@@ -17,8 +28,13 @@ const Navbar = () => {
         <NavLink to='/review'>Review</NavLink>
       </li>
       <li>
-        <NavLink to='/login'>Login</NavLink>
+        <NavLink to='/dashboard'>Dashboard</NavLink>
       </li>
+      {!user?.uid ?
+        <li>
+        <NavLink to='/login'>Login</NavLink>
+      </li>:<li onClick={handelLogout}><Link>Logout</Link></li>
+    }
     </React.Fragment>
   );
   return (
@@ -58,7 +74,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className='navbar-end'>
-        
+        <h4 className="text-xl hidden md:block">{user?.displayName}</h4>
       </div>
     </div>
   );
